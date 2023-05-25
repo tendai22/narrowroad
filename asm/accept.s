@@ -1,6 +1,6 @@
 /*  definitions */
  .equ ram,  0
- .equ start,  0x80
+ .equ start,  0x200
  .equ uart_dreg,  0x800A0
  .equ uart_creg,  0x800A1
  .equ HALT_REG,   0x800A2
@@ -8,17 +8,27 @@
  .equ u3txif,  2
  .equ u3rxif,  1
 
- .equ linbuf, 0x1000
+ .equ linbuf, 0xf00
  .equ bufsiz, 64
 
- .org      ram
+    .org      ram
     dc.l    0xf000
     dc.l    start
- .org      start
+    .align 16
+/*
+ * sample string
+*/
+str1:
+    .ascii "sample string"
+    dc.b  1,2,3
+    .org      start
 main:
-    move.w  #linbuf, %a0
-    move.w  #bufsiz, %d1
-    jsr     (accept)
+|    move.l  #linbuf, %a0
+|    move.l  #bufsiz, %d1
+|    jsr     (accept)
+    move.l  #str1,%a0
+    move.l  #8,%d0
+    jsr     (putstr)
 halt_loop:
     bra.b   halt_loop
 /*
@@ -29,8 +39,8 @@ halt_loop:
  */
 accept:
     move.w  %a1,-(%a7)      /* push %a1 */
-    move.w  %a0,%a1         /* initialize ptr p(as %a1) */
     move.w  %d2,-(%a7)      /* push %d2 */
+    move.w  %a0,%a1         /* initialize ptr p(as %a1) */
     move.w  %d1,%d2
     move.w  #0,%d1
 acceptl:
@@ -40,39 +50,60 @@ acceptl:
                              * d1 < d2  -> skip
                              */
     jsr     (getch)
+    cmp.b   #'\r',%d0       /* \r ? */
+    beq     acceptz
+    cmp.b   #'\n',%d0
+    beq     acceptz
     move.w  %d0,-(%a7)      /* push d0 */
     jsr     (putch)
     move.w  (%a7)+,%d0      /* pop d0 */
-    move.b  %d0,(%a1+%d1)   /* buf[i] = c */
-    add.q   %d1             /* i++ */
+    move.b  %d0,(%a1,%d1)   /* buf[i] = c */
+    add.b   1,%d1             /* i++ */
     bra.b   acceptl   
+acceptz:
+|    move.b  #'B',%d0
+|    jsr     (putch)
+|acceptx:
+|    bra.b   acceptx
+   
+    move.w  %d1,%d0
+    move.w  (%a7)+,%d2
+    move.w  (%a7)+,%a1
+    rts
+acceptz2:
+    bra.B   acceptz2
 /* end of accept loop */
-    move.b  %d1,%d2         /* save counter */
-acceptel:
-    move.b  (%a1)+,%d0
+/* putstr
+ * in: %a0: *buf
+ *     %d0: num of chars
+ */
+putstr:
+    move.w  %a0,-(%sp)      /* push %a0 */
+    move.w  %d1,-(%sp)      /* push %d1 */
+    move.w  %d0,-(%sp)      /* push %d0 */
+    move.w  %d0,%d1         /* use %d1 as counter */
+    move.b  #'A',%d0
     jsr     (putch)
-    add.b   #-1,%d1
-    cmp     #0,%d1
-    ble     acceptel   
+|    move.l  #str1,%a0
+|    move.l  #12,%d1
+putstrl:
+    add.l   #-1,%d1          /* --%d1 */
+|    cmp.w   #0,%d1
+    beq     putstre
+    move.b  (%a0)+,%d0
+    jsr     (putch)
+    bra.b   putstrl
+putstre:
+    move.b  #'B',%d0
+    jsr     (putch)
     move.b  #'\r', %d0
     jsr     (putch)
     move.b  #'\n', %d0
     jsr     (putch)
-acceptz1:
-    bra.b   acceptz1
-acceptz:
-    move.b  #'B', %d0
-    jsr     (putch)
-acceptz2:
-    bra.B   acceptz2
-
-
-
-    /*move.b  (dbg_table+2),%d0*/
-    jsr     (putch)
-    jsr     (getch)
-    /*move.b  %d0,(dbg_table+3)*/
-    bra.b   main
+    move.w  (%sp)+,%d0
+    move.w  (%sp)+,%d1
+    move.w  (%sp)+,%a0
+    rts
 /*
  *  putch ... put one char from %d0
  */
@@ -96,3 +127,5 @@ getch:
     /* now RXRDY */
     move.b  (uart_dreg),%d0
     rts
+    
+
