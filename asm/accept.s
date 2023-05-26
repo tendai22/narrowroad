@@ -23,14 +23,13 @@ str1:
     dc.b  1,2,3
     .org      start
 main:
-|    move.l  #linbuf, %a0
-|    move.l  #bufsiz, %d1
-|    jsr     (accept)
-    move.l  #str1,%a0
-    move.l  #8,%d0
+    move.l  #linbuf, %a0
+    move.l  #bufsiz, %d1
+    jsr     (accept)
+    jsr     (crlf)
     jsr     (putstr)
-halt_loop:
-    bra.b   halt_loop
+    jsr     (crlf)
+    bra.b   main
 /*
  * accept: line input (aka gets)
  * In:  %a0:  *buf
@@ -54,18 +53,31 @@ acceptl:
     beq     acceptz
     cmp.b   #'\n',%d0
     beq     acceptz
+    /* ^H/DEL .. erase one char */
+    cmp.b   #8,%d0
+    beq     acceptdel
+    cmp.b   #0x7f,%d0
+    beq     acceptdel
+    /* put it on the buffer */
     move.w  %d0,-(%a7)      /* push d0 */
     jsr     (putch)
     move.w  (%a7)+,%d0      /* pop d0 */
     move.b  %d0,(%a1,%d1)   /* buf[i] = c */
-    add.b   1,%d1             /* i++ */
+    add.w   #1,%d1             /* i++ */
     bra.b   acceptl   
+acceptdel:
+    cmp.w   #0,%d1
+    ble     acceptl         /* if it is on the top, do nothing */
+    sub.w   #1,%d1           /* --i */
+    move.b  #8,%d0          /* puts("^H ^H"); */
+    jsr     (putch)
+    move.b  #' ',%d0
+    jsr     (putch)
+    move.b  #8,%d0
+    jsr     (putch)
+    bra.b   acceptl  
 acceptz:
-|    move.b  #'B',%d0
-|    jsr     (putch)
-|acceptx:
-|    bra.b   acceptx
-   
+    /* return it */
     move.w  %d1,%d0
     move.w  (%a7)+,%d2
     move.w  (%a7)+,%a1
@@ -73,6 +85,7 @@ acceptz:
 acceptz2:
     bra.B   acceptz2
 /* end of accept loop */
+
 /* putstr
  * in: %a0: *buf
  *     %d0: num of chars
@@ -82,24 +95,13 @@ putstr:
     move.w  %d1,-(%sp)      /* push %d1 */
     move.w  %d0,-(%sp)      /* push %d0 */
     move.w  %d0,%d1         /* use %d1 as counter */
-    move.b  #'A',%d0
-    jsr     (putch)
-|    move.l  #str1,%a0
-|    move.l  #12,%d1
 putstrl:
-    add.l   #-1,%d1          /* --%d1 */
-|    cmp.w   #0,%d1
-    beq     putstre
+    add.w   #-1,%d1          /* --%d1 */
+    blt     putstre
     move.b  (%a0)+,%d0
     jsr     (putch)
     bra.b   putstrl
 putstre:
-    move.b  #'B',%d0
-    jsr     (putch)
-    move.b  #'\r', %d0
-    jsr     (putch)
-    move.b  #'\n', %d0
-    jsr     (putch)
     move.w  (%sp)+,%d0
     move.w  (%sp)+,%d1
     move.w  (%sp)+,%a0
@@ -127,5 +129,18 @@ getch:
     /* now RXRDY */
     move.b  (uart_dreg),%d0
     rts
+/*
+ * crlf
+ */
+crlf:
+    move.b  %d0,-(%sp)
+    move.b  #'\r',%d0
+    jsr     (putch)
+    move.b  #'\n',%d0
+    jsr   (putch)
+    move.b  (%sp)+,%d0
+    rts
+
+
     
 
