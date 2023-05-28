@@ -1,20 +1,7 @@
-/*  definitions */
- .equ ram,  0
- .equ start,  0x200
- .equ uart_dreg,  0x800A0
- .equ uart_creg,  0x800A1
- .equ HALT_REG,   0x800A2
- .equ dbg_table,  0x80100
- .equ u3txif,  2
- .equ u3rxif,  1
 
- .equ linbuf, 0xf00
- .equ bufsiz, 64
+.include "emu68kplus.h"
+.include "zeropage.h"
 
-    .org      ram
-    dc.l    0xf000
-    dc.l    start
-    .align 16
 /*
  * sample string
 */
