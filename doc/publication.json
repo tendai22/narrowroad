@@ -1,0 +1,31 @@
+{
+  "@context": [
+    "https://schema.org",
+    "https://www.w3.org/ns/pub-context"
+  ],
+  "type": "Book",
+  "conformsTo": "https://github.com/vivliostyle/vivliostyle-cli",
+  "author": "",
+  "dateModified": "2023-06-25T15:58:53.374Z",
+  "name": "narrowroad.pdf",
+  "readingOrder": [
+    {
+      "url": "ch01.html",
+      "name": "1. FORTHが生まれた世界"
+    },
+    {
+      "url": "ch02.html",
+      "name": "2. Forthの哲学"
+    },
+    {
+      "url": "ch03.html",
+      "name": "2章 実行環境の整備"
+    },
+    {
+      "url": "ch04.html",
+      "name": "3章 旅立ち"
+    }
+  ],
+  "resources": [],
+  "links": []
+}
