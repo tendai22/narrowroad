@@ -6,7 +6,7 @@
   "type": "Book",
   "conformsTo": "https://github.com/vivliostyle/vivliostyle-cli",
   "author": "",
-  "dateModified": "2023-06-25T15:58:53.374Z",
+  "dateModified": "2023-06-28T14:45:03.703Z",
   "name": "narrowroad.pdf",
   "readingOrder": [
     {
@@ -19,11 +19,19 @@
     },
     {
       "url": "ch03.html",
-      "name": "2章 実行環境の整備"
+      "name": "3. Forth言語処理系"
     },
     {
       "url": "ch04.html",
-      "name": "3章 旅立ち"
+      "name": "3章 実行環境の整備"
+    },
+    {
+      "url": "ch05.html",
+      "name": "4章 旅立ち"
+    },
+    {
+      "url": "reference.html",
+      "name": "Appendix.1 参考文献"
     }
   ],
   "resources": [],
