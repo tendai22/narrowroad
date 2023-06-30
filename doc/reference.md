@@ -13,3 +13,4 @@ ACM SIGPLAN History of Programming Languages Conference (HOPL II, 1993年)で発
 **Moore, 1970b: Moore, C.H., Programming a Problem-oriented Language.** Amsterdam, NY: Mohasco
 Industries Inc. (internal pub.) 1970.
 
+ 
