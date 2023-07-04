@@ -4,13 +4,13 @@
 
 .include "emu68kplus.h"
 
-code_top  equ 0x1000
-dict_top  equ 0x2000
+    .equ    code_top, 0x1000
+    .equ    ram_end, 0x10000
 
 /*
  * code segment
  */
-    org    code_top
+    .org    code_top
 /*
  * memory map
  *
@@ -36,13 +36,15 @@ dict_top  equ 0x2000
  *  sp_end  +-----------------
  *  ram_end 
  */
-code_top  equ  ram_top
-dict_top  equ  code_top + 0x1000
-linbuf    equ  dict_top + 0x1000
+    .equ    code_top,  ram_top
+    .equ    dict,  code_top + 0x1000
+    .equ    linbuf,    dict_top + 0x1000
 
-sp_end    equ  ram_end
-rsp_end   equ  sp_end - 256
-dsp_end   equ  rsp_end - 256
+    .equ    sp_end,     ram_end
+    .equ    end_sp,     sp_end
+    .equ    rsp_end,    sp_end - 256
+    .equ    end_rsp,    rsp_end
+    .equ    dsp_end,    rsp_end - 256
 
 /*
  * Forth interpreter initialize
@@ -58,6 +60,14 @@ start:
     /* IP should be set later */
     move.l   #test_do_list,%a6  /* initialize IP */
     bra.b    do_next
+/*
+ * strings
+ */
+
+halt_message:
+    dc.b    4
+    .string  "halt"
+    .align 2
 /*
  * do_system ... halt the interpreter
  */
@@ -120,15 +130,26 @@ do_list:
 do_exit:
     move.w  (%a4)+,%a6
     bra.b   do_next
+    nop
 do_next:
-    bra     (%a6)+              /* exec next token */
+    move.w  (%a6)+,%a0
+    jmp     %a0             /* exec next token */
 /* virtual machine instruction */
 do_lit:
     move.w  (%a6)+,%d0
     move.w   %d0,-(%a5)
     bra.b   do_next
+/* do_add */
+do_add:
+    move.w  (%a6)+,%d0
+    add.w   (%a6)+,%d0
+    move.w  %d0,-(%a6)
+    bra.b   do_next
+/* do_code */
 
-    .org   dict_top
+
+    .org    0x2000 /*dict_top */
+
 entry_000:  /* entry "abc" */
 e_abc:
     dc.b   3        /* name length. strlen("abc") +1 (if length is even) */
@@ -143,7 +164,7 @@ test_do_list:
     dc.w   do_lit
     dc.w   2
     dc.w   do_add
-    dc.w   do_next
+    dc.w   do_exit
 entry_001:  /* entry "defgh" */
 e_defgh:
     dc.b   5
