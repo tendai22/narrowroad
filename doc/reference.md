@@ -1,10 +1,4 @@
----
-link:
-  - rel: 'stylesheet'
-    href: 'css/sample1.css'
-lang: ja
----
-# Appendix.1 参考文献
+## Appendix.1 参考文献
 
 **Rather et al.93: The Evolution of Forth, **
 
@@ -13,4 +7,4 @@ ACM SIGPLAN History of Programming Languages Conference (HOPL II, 1993年)で発
 **Moore, 1970b: Moore, C.H., Programming a Problem-oriented Language.** Amsterdam, NY: Mohasco
 Industries Inc. (internal pub.) 1970.
 
- 
+図2-1. の写真(https://www.computerhistory.org/collections/catalog/102685442)

@@ -1,11 +1,213 @@
 @charset "utf-8";
 
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap');
+
+:root {
+	font-size: 14Q;
+	line-height: 26Q;
+	font-family: 'Noto Sans JP';
+	font-weight: 400;
+	/*text-spacing: auto;*/
+	widows: 1;
+	orphans: 1;
+	counter-reset: column-counter ch-counter;
+}
+
+@font-face {
+	font-family: keyfont;
+	src: url('fonts/keyboard-JP-Regular.otf');
+}
+
+@font-face {
+	font-family: udevgothic-r;
+	src:url('fonts/UDEVGothic-Regular.ttf');
+}
+
+figure {
+	margin-block: 34mm;
+	margin-inline: 0;
+}
+
+img {
+	max-inline-size: 100%;
+	border: solid 0.5mm #000;
+}
+
+@page :first {
+	margin: 0;
+	@bottom-center{
+		content: none;
+	}
+}
+
+h1 {
+	font-size: 72Q;
+	line-height: 100Q;
+	margin-block-start: 40mm;
+	text-align: center;
+	/*counter-reset: ch-counter;*/
+}
+
+.subtitle {
+	font-size: 24Q;
+	text-align: center;
+	font-weight: 700;
+	margin-block-start: 40mm;
+}
+
+h2 {
+	break-before: verso;
+	font-size: 40Q;
+	line-height: 54Q;
+	/*inline-size: 10em;*/
+	block-size: 2lh;
+	margin-block: 0 12mm;
+	/*counter-reset: section-counter;*/
+}
+
+h2::before {
+	counter-increment: ch-counter;
+	content: counter(ch-counter) "a. ";
+	inline-size: 2em;
+	/* color: #999; */
+}
+
+h3 {
+	font-size: 24Q;
+	line-height: 32Q;
+	margin-block: 1rlh 0;
+	block-size: 2rlh;
+	margin-break: auto;
+	counter-reset: subsection-counter;
+}
+
+h3::before {
+	counter-increment: section-counter;
+	content: counter(ch-counter) "." counter(section-counter) ". ";
+	/* color: #999; */
+}
+
+h4 {
+	font-size: 20Q;
+	line-height: 26Q;
+	margin-block: 1rlh 0;
+	block-size: 2rlh;
+	margin-break: auto;
+}
+
+h4::before {
+	counter-increment: subsection-counter;
+	content: counter(ch-counter) "." counter(section-counter) "." counter(subsection-counter) ". ";
+	inline-size: 2em;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: 'Noto Sans JP';
+	font-weight: 700;
+	font-feature-settings: 'palt';
+	text-spacing: no-autospace;
+}
+
+/* please use <hr class="pagebreak"> */
+.pagebreak {
+	visibility: hidden;
+	break-after: page;
+}
+
+ul, ol {
+	margin-block: 0.5lh;
+	/*font-weight: 700;*/
+}
+
+em {
+	font-style: normal;
+	text-decoration: underline;
+	text-decoration-thickness: 0.4em;
+	text-decoration-color: #ccc;
+	text-underline-offset: -0.1em;
+	text-decoration-skip-ink: none;
+}
+
+img[src$='.svg'] {
+	border: none;
+}
+
+/* counters */
+:root {
+	counter-reset: figure-counter code-counter table-counter;
+}
+
+/* figure-counters */
+figcaption::before {
+	content: "図" counter(figure-counter) ": ";
+	counter-increment: figure-counter;
+}
+
+h6:has(+ table)::before {
+	content: "表" counter(table-counter) " : ";
+	counter-increment: table-counter;
+}
+
+h6:has(+ pre)::before {
+	content: "コード" counter(code-counter) " : ";
+	counter-increment: code-counter;
+}
+
+/* table */
+table {
+	boader-collapse: collapse;
+	font-size: 12Q;
+	line-height: 1.25em;
+}
+
+td, th {
+	border: solod 0.1mm #000;
+	padding: 1mm;
+}
+
+th {
+	background: #bbb;
+	min-inline-size: 7em;
+}
+
+tr:nth-child(even) {
+	background: #eee;
+}
+
+/* column */
+.column {
+	border: solid 2mm #888;
+	padding-block: 2mm;
+	padding-inline: 3mm;
+	margin-block: 6mm;
+	margin-inline: 0;
+	text-align: justify;
+}
+
+.column h5 {
+	font-size: 15Q;
+	margin-block: 0. 0.5em;
+}
+
+h5::before {
+	counter-increment: column-counter;
+	content: "コラム" counter(column-counter) ".  ";
+}
+
+/* vscode-markdown style definitions */
+
 * {
     box-sizing: border-box;
 }
 
 @page {
     size: JIS-B5;
+	font-size: 10Q;
+	@bottom-center {
+		content: counter(page);
+		block-size: 10Q;
+		margin-block-start: 4mm;
+	}
 }
 @page :left {
     margin-block: 15mm;
@@ -16,6 +218,128 @@
     margin-inline: 18.25mm 16mm;
 }
 
+/* code, pre */
+code {
+	font-family: udevgothic-r;
+	tab-size: 4;
+}
+
+pre {
+	font-family: udevgothic-r;
+	white-space: pre-wrap;
+	line-break: anywhare;
+	text-spacing: none;
+	font-size: 14Q;
+	line-height: 18Q;
+	border: solid 0.3mm #000;
+	padding-block: 3mm;
+	padding-inline: 3mm;
+	margin-block: 6mm;
+	margin-inline: 0;
+	/*background: repeating-linear-gradient(#eee 0, #eee 18Q, #fff 18Q, #fff 36Q);*/
+	background: #eee;
+	background-position-y: 1.4mm;
+}
+
+h6 + pre {
+	margin-block-start: 1mm;
+}
+
+/* blockquote ... vscode style */
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 3px;
+	border-left-style: solid;
+}
+
+
+/* footnote */
+.notetext {
+	float: footnote;
+	font-size: 11Q;
+	line-height: 15Q;
+	text-indent: 0;
+}
+
+::footnote-marker {
+	content: "*" counter(footnote) " ";
+}
+::footnote-call {
+	content: "*" counter(footnote);
+	font-size: 0.7em;
+	position: relative;
+	inset-block-start: -0.5em;
+}
+
+/* 奥付 */
+.okuduke-container {
+	block-size: 180mm;
+	font-size: 14Q;
+	line-height: 1.25em;
+	text-indent: 0;
+	display: grid;
+	grid-template-rows: 15mm auto 18mm;
+	grid-template-areas: "header" "content" "footer";
+}
+
+.staff-list {
+	grid-area: header;
+	border: solid 0.5mm #000;
+	padding: 1mm;
+	list-style: none;
+}
+
+.caution {
+	grid-area: footer;
+	align-self: end;
+	font-size: 11Q;
+}
+
+.book-info {
+	grid-area: book-info;
+	align-self: end;
+	display: grid;
+	grid-template-columns: 4em auto;
+	column-gap: 1em;
+	row-gap: 1mm;
+}
+dt {
+	text-align-last: justify;
+	margin: 0;
+}
+dt.booktitle,
+dt.publish-date,
+dt.isbn-copy {
+	display: none;
+}
+dd {
+	margin: 0;
+}
+dd.booktitle {
+	grid-column: 1/3;
+	font-size: 20Q;
+	line-height: 1.5em;
+	border-block-end: solid 0.5mm #000;
+	padding-block-end: 2mm;
+	margin-block-end: 2mm;
+}
+dd.publish-date {
+	grid-column: 1/3;
+	margin-block-end: 2.5lh;
+}
+dd.publish-date .date {
+	display: inline-block;
+	inline-size: 5.0em;
+	text-align: end;
+	margin-inline-end: 2em;
+}
+
+dd.isdn-copy {
+	grid-column: 1/3;
+}
+
+/* vscode-markdown-style
 body {
 	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", "sans-serif");
 	font-size: var(--vscode-markdown-font-size, 12px);
@@ -131,6 +455,7 @@ hr {
 	border-bottom: 2px solid;
 }
 
+
 h1 {
 	padding-bottom: 0.3em;
 	line-height: 1.2;
@@ -161,38 +486,41 @@ table > tbody > tr > td {
 table > tbody > tr + tr > td {
 	border-top: 1px solid;
 }
-
+*/
 blockquote {
 	margin: 0 7px 0 5px;
 	padding: 0 16px 0 10px;
 	border-left-width: 5px;
 	border-left-style: solid;
 }
-
+/*
 code {
 	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", "monospace", "Droid Sans Fallback";
 	font-size: 1em;
 	line-height: 1.357em;
 }
-
 body.wordWrap pre {
 	white-space: pre-wrap;
 }
 
 pre:not(.hljs),
 pre.hljs code > div {
+	font-family: udevgothic-r;
 	padding: 12px;
 	border-radius: 3px;
 	overflow: auto;
 }
 
 pre code {
+	font-family: udevgothic-r;
 	color: var(--vscode-editor-foreground);
 	tab-size: 4;
 }
+*/
+
 
 /** Theming */
-
+/*
 .vscode-light pre {
 	background-color: rgba(220, 220, 220, 0.4);
 }
@@ -228,14 +556,16 @@ pre code {
 .vscode-dark table > tbody > tr + tr > td {
 	border-color: rgba(255, 255, 255, 0.18);
 }
-
+*/
 /* Tomorrow Comment */
+/*
 .hljs-comment,
 .hljs-quote {
 	color: #8e908c;
 }
-
+*/
 /* Tomorrow Red */
+/*
 .hljs-variable,
 .hljs-template-variable,
 .hljs-tag,
@@ -246,8 +576,9 @@ pre code {
 .hljs-deletion {
 	color: #c82829;
 }
-
+*/
 /* Tomorrow Orange */
+/*
 .hljs-number,
 .hljs-built_in,
 .hljs-builtin-name,
@@ -258,27 +589,31 @@ pre code {
 .hljs-link {
 	color: #f5871f;
 }
-
+*/
 /* Tomorrow Yellow */
+/*
 .hljs-attribute {
 	color: #eab700;
 }
-
+*/
 /* Tomorrow Green */
+/*
 .hljs-string,
 .hljs-symbol,
 .hljs-bullet,
 .hljs-addition {
 	color: #718c00;
 }
-
+*/
 /* Tomorrow Blue */
+/*
 .hljs-title,
 .hljs-section {
 	color: #4271ae;
 }
-
+*/
 /* Tomorrow Purple */
+/*
 .hljs-keyword,
 .hljs-selector-tag {
 	color: #8959a8;
@@ -298,17 +633,19 @@ pre code {
 .hljs-strong {
 	font-weight: bold;
 }
-
+*/
 /*
  * Markdown PDF CSS
  */
-
+/*
 body {
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", "sans-serif", "Meiryo";
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", "sans-serif", "Meiryo";
+	font-family: "Noto Sans JP";
 	padding: 0 12px;
 }
 
 pre {
+	font-family: udevgothic-r;
 	background-color: #f8f8f8;
 	border: 1px solid #cccccc;
 	border-radius: 3px;
@@ -332,16 +669,18 @@ blockquote {
 }
 
 code {
+	font-family: udevgothic-r;
 	font-size: 12px;
 	line-height: 19px;
 }
-
+*/
 /* for inline code */
+/*
 :not(pre):not(.hljs) > code {
 	color: #C9AE75; /* Change the old color so it seems less like an error */
 	font-size: inherit;
 }
-
+*/
 /* Page Break : use <div class="page"/> to insert page break
 -------------------------------------------------------- */
 .page {
