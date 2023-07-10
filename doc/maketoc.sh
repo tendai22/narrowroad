@@ -7,7 +7,9 @@ grep '^#' /dev/null  `sed -n '/entry:  *\[/,/^[    ]*\]/{
     s/", *//
     p
 }'` |
-sed 's/:#### / 4 /
+sed 's/:###### / 6 /
+    s/:##### / 5 /
+    s/:#### / 4 /
     s/:### / 3 /
     s/:## / 2 /
     s/:# / 1 /' |
@@ -35,18 +37,21 @@ prev < $2 {   # ダイブイン
 }
 prev > $2 {    # ダイブアウト
     printf "<!-- %d < %d -->", prev, $2
-    for (i = prev; $2 <= i; --i) {
-        for (j = i; j < prev; ++j) {
+    for (i = prev; $2 < i; --i) {
+        for (j = 0; j < prev; ++j) {
             printf "  "
         }
         print "</li>"
-    }
-    for (i = prev; $2 <= i; --i) {
-        for (j = i; j < $2; ++j) {
+        for (j = 0; j < $2; ++j) {
             printf "  "
         }
         print "</ul>"
     }
+    for (i = 0; i < prev; ++i) {
+        printf "  "
+    }
+    print "</li>"
+
 }
 END {
      for (i = 0; i < prev; ++i) {
@@ -71,6 +76,6 @@ END {
     }
     printf "<li><a href=\"%s#%d-%d\" class=\"%s\">#%s</a>", $1, $2, n, tag, $0;
 }
-{ prev=$2; }' |cat; exit;
-sed 's/>#[^ ]* [^ ]* />/'
+{ prev=$2; }' |
+sed 's/>#[^# ]* [^ ]* />/'
 
