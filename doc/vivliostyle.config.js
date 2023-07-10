@@ -5,12 +5,14 @@ module.exports = {
     size: 'JIS-B5',
     theme: 'css/sample1.css',
     entry: [
+        "toc.md",
         "ch01.md",
         "ch02.md",
         "ch03.md",
         "ch04.md",
         "ch05.md",
         "reference.md",
+        "okuduke.md",
     ],
     workspaceDir: 'work',
     output: [
