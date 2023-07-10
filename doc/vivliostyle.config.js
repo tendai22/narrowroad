@@ -5,6 +5,7 @@ module.exports = {
     size: 'JIS-B5',
     theme: 'css/sample1.css',
     entry: [
+        "toppage.md",
         "toc.md",
         "ch01.md",
         "ch02.md",
