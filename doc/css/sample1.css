@@ -10,7 +10,6 @@
 	/*text-spacing: auto;*/
 	widows: 1;
 	orphans: 1;
-	counter-reset: column-counter ch-counter;
 }
 
 @font-face {
@@ -38,14 +37,19 @@ img {
 	@bottom-center{
 		content: none;
 	}
+	counter-reset: chapter -2;
 }
 
-h1 {
+@page :nth(1) {
+	counter-increment: chapter;
+}
+
+.title-page {
 	font-size: 72Q;
+	font-weight: 700;
 	line-height: 100Q;
 	margin-block-start: 40mm;
 	text-align: center;
-	/*counter-reset: ch-counter;*/
 }
 
 .subtitle {
@@ -55,38 +59,38 @@ h1 {
 	margin-block-start: 40mm;
 }
 
-h2 {
+h1 {
 	break-before: verso;
 	font-size: 40Q;
 	line-height: 54Q;
 	/*inline-size: 10em;*/
 	block-size: 2lh;
 	margin-block: 0 12mm;
-	/*counter-reset: section-counter;*/
+	counter-reset: section 0;
 }
 
-h2::before {
-	counter-increment: ch-counter;
-	content: counters(toc-list-counter, "-");
+h1::before {
+	content: counter(chapter) ". ";
 	inline-size: 2em;
 	/* color: #999; */
 }
 
-h3 {
+h2 {
 	font-size: 24Q;
 	line-height: 32Q;
 	margin-block: 1rlh 0;
 	block-size: 2rlh;
 	margin-break: auto;
+	counter-reset: subsection; /* counter needs reset, otherwise, no increments occur */
 }
 
-h3::before {
-	counter-increment: section-counter;
-	content: counters(toc-list-counter, "-");
+h2::before {
+	content: counter(chapter) "-" counter(section) ".";
+	counter-increment: section 1;
 	/* color: #999; */
 }
 
-h4 {
+h3 {
 	font-size: 20Q;
 	line-height: 26Q;
 	margin-block: 1rlh 0;
@@ -94,10 +98,9 @@ h4 {
 	margin-break: auto;
 }
 
-h4::before {
-	counter-increment: subsection-counter;
-	/*content: counter(ch-counter) "." counter(section-counter) "." counter(subsection-counter) ". ";*/
-	content: counters(toc-list-counter, "-");
+h3::before {
+	content: counter(chapter) "." counter(section) "." counter(subsection) ". ";
+	counter-increment: subsection 1;
 	inline-size: 2em;
 }
 
@@ -340,107 +343,142 @@ dd.isdn-copy {
 }
 
 /* toc */
+
+#toc ul, li {
+	list-style: none;
+  
+	ol {
+	  padding-left: 1em;
+	}
+  
+	a {
+	  display: inline-flex;
+	  width: 100%;
+	  text-decoration: none;
+	  color: currentColor;
+	  align-items: baseline;
+  
+	  &::before {
+		margin-left: 0.5em;
+		margin-right: 0.5em;
+		border-bottom: 1px dotted;
+		content: '';
+		order: 1;
+		flex: auto;
+	  }
+  
+	  &::after {
+		text-align: right;
+		content: target-counter(attr(href), page);
+		align-self: flex-end;
+		flex: none;
+		order: 2;
+	  }
+	}
+}
+  
+/*
 #toc-title::before {
 	content: none;
 }
 
 #toc {
 	text-spacing: no-autospace;
-}
 
-#toc ul {
-	list-style: none;
-	margin-inline-start: 0;
-	padding-inline-start: 0;
-	counter-reset: toc-list-counter 0;
-}
+	ul {
+		list-style: none;
+		margin-inline-start: 0;
+		padding-inline-start: 0;
+		counter-reset: toc-list-counter 0;
+	}
 
-#toc a {
-	color: #000;
-	text-decoration: none;
-}
+	a {
+		color: #000;
+		text-decoration: none;
+	}
 
-#toc a::after {
-	content: target-counter(attr(href url), page);
-	margin-inline-start: 1em;
-	text-align: end;
-}
+	a::after {
+		content: target-counter(attr(href url), page);
+		margin-inline-start: 1em;
+		text-align: end;
+	}
 
-.toc-chapter {
-	font-size: 24Q;
-	line-height: 1.25em;
-	font-weight: 700;
-	margin-block-end: 2em;
-	display: grid;
-	grid-template-columns: auto 3em;
-}
+	.level2 {
+		font-size: 24Q;
+		line-height: 1.25em;
+		font-weight: 700;
+		margin-block-end: 2em;
+		display: grid;
+		grid-template-columns: auto 3em;
+	}
 
-.toc-chapter::before {
-	content: "Chapter " counters(toc-list-counter, "-");
-	counter-increment: toc-list-counter;
-	grid-column: 1/3;
-	font-size: 15Q;
-	line-height: 1.5em;
-	border-bottom: solid 0.5mm #000;
-}
+	.level2::before {
+		content: counters(toc-list-counter, "-");
+		counter-increment: toc-list-counter;
+		grid-column: 1/3;
+		font-size: 15Q;
+		line-height: 1.5em;
+		border-bottom: solid 0.5mm #000;
+	}
 
-.toc-chapter::after {
-	font-size: 18Q;
-}
+	.level2::after {
+		font-size: 18Q;
+	}
 
-li:has(> .toc-chapter) {
-	margin-block-end: 8mm;
-}
+	li:has(> .book-info) {
+		margin-block-end: 8mm;
+	}
 
-/* section */
-li:has(> .toc-section) {
-	font-size: 18Q;
-	line-height: 1.2em;
-	font-weight: 700;
-	margin-inline-start: 15mm;
-	margin-block-end: 2mm;
-	break-inside: avoid;
-	position: relative;
-}
+	li:has(> .level3) {
+		font-size: 18Q;
+		line-height: 1.2em;
+		font-weight: 700;
+		margin-inline-start: 15mm;
+		margin-block-end: 2mm;
+		break-inside: avoid;
+		position: relative;
+	}
 
-.toc-section::before {
-	content: counters(toc-list-counter, "-");
-	counter-increment: toc-list-counter;
-	position: absolute;
-	inset-inline-start: -15mm;
-	display: block;
-	inline-size: 13mm;
-	text-align: end;
-}
+	.level3::before {
+		content: counters(toc-list-counter, "-");
+		counter-increment: toc-list-counter;
+		position: absolute;
+		inset-inline-start: -15mm;
+		display: block;
+		inline-size: 13mm;
+		text-align: end;
+	}
 
-#toc .toc-section::after {
-	content: leader(dotted) target-counter(attr(href url), page);
-	margin-inline-start: 0.5mm;
-}
+	.level3::after {
+		content: leader(dotted) target-counter(attr(href url), page);
+		margin-inline-start: 0.5mm;
+	}
 
-li:has(> .toc-section) > ul {
-	margin-block-start: 1mm;
-}
+	li:has(> .level3) > ul {
+		margin-block-start: 1mm;
+	}
 
-li:has(> .toc-subsection) {
-	font-size: 13Q;
-	line-height: 1.25em;
-	font-weight: 400;
-	margin-inline-start: 3em;
-	text-indent: -3em;
-	margin-inline-end: 1em;
-	margin-block-end: 0.1em;
-}
+	li:has(> .level4) {
+		font-size: 13Q;
+		line-height: 1.25em;
+		font-weight: 400;
+		margin-inline-start: 3em;
+		text-indent: -3em;
+		margin-inline-end: 1em;
+		margin-block-end: 0.1em;
+	}
 
-.toc-subsection::before {
-	content: counters(toc-list-counter, "-");
-	counter-increment: toc-list-counter;
-	display: inline-block;
-	min-inline-size: 2.5em;
-	text-indent: 0;
-	margin-inline-end: 0.5em;
-	text-align: start;
+	.level4::before {
+		content: counters(toc-list-counter, "-");
+		counter-increment: toc-list-counter;
+		display: inline-block;
+		min-inline-size: 2.5em;
+		text-indent: 0;
+		margin-inline-end: 0.5em;
+		text-align: start;
+	}
 }
+*/
 /* vscode-markdown-style
 body {
 	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", "sans-serif");
@@ -779,7 +817,7 @@ code {
 /* for inline code */
 /*
 :not(pre):not(.hljs) > code {
-	color: #C9AE75; /* Change the old color so it seems less like an error */
+	color: #C9AE75; *//* Change the old color so it seems less like an error *//*
 	font-size: inherit;
 }
 */

@@ -1,62 +1,36 @@
-## 目次
 <nav id="toc" role="doc-toc">
-<!-- +++ 1 > 2 -->
-  <ul>
-    <li><a href="ch01.md#H01-1" class="toc-chapter">FORTHが生まれた世界</a><!-- +++ 2 > 5 -->
-    <ul>
-      <ul>
-        <ul>
-          <li><a href="ch01.md#Column01" class="toc-column">コラムタイトル</a><!-- 5 < 3 -->          </li>
-      </ul>
-          </li>
-      </ul>
-          </li>
-      <li><a href="ch01.md#H01-2" class="toc-section">FORTHの誕生</a>      </li>
-      <li><a href="ch01.md#H01-3" class="toc-section">FORTHの発展</a><!-- 3 < 2 -->      </li>
-    </ul>
-      </li>
-    <li><a href="ch02.md#H02-1" class="toc-chapter">Forthの「基本原則」</a><!-- +++ 2 > 3 -->
-    <ul>
-      <li><a href="ch02.md#H02-2" class="toc-section">Keep it Simple!</a>      </li>
-      <li><a href="ch02.md#H02-3" class="toc-section">Do It Yourself!</a><!-- 3 < 2 -->      </li>
-    </ul>
-      </li>
-    <li><a href="ch03.md#H03-1" class="toc-chapter">Forth処理系</a><!-- +++ 2 > 3 -->
-    <ul>
-      <li><a href="ch03.md#H03-2" class="toc-section">Forth処理系の哲学</a>      </li>
-      <li><a href="ch03.md#H03-3" class="toc-section">Forth処理系の概要</a><!-- +++ 3 > 4 -->
-      <ul>
-        <li><a href="ch03.md#H03-4" class="toc-subsection">辞書(Dictionary)</a>        </li>
-        <li><a href="ch03.md#H03-5" class="toc-subsection">スタック</a>        </li>
-        <li><a href="ch03.md#H03-6" class="toc-subsection">インタプリタ</a>        </li>
-        <li><a href="ch03.md#H03-7" class="toc-subsection">アセンブラ</a>        </li>
-        <li><a href="ch03.md#H03-8" class="toc-subsection">2次記憶</a><!-- 4 < 3 -->        </li>
-      </ul>
-        </li>
-      <li><a href="ch03.md#H03-9" class="toc-section">Forth処理系を簡単に説明する</a>      </li>
-      <li><a href="ch03.md#H03-10" class="toc-section">ワードを定義する</a>      </li>
-      <li><a href="ch03.md#H03-11" class="toc-section">スタックを介したオペランド渡し</a>      </li>
-      <li><a href="ch03.md#H03-12" class="toc-section">内部インタプリタ: ワードアドレス列の実行</a>      </li>
-      <li><a href="ch03.md#H03-13" class="toc-section">仮想Forth実行マシン</a>      </li>
-      <li><a href="ch03.md#H03-14" class="toc-section">大体の旅程</a><!-- 3 < 2 -->      </li>
-    </ul>
-      </li>
-    <li><a href="ch04.md#H04-1" class="toc-chapter">実行環境の整備</a><!-- +++ 2 > 3 -->
-    <ul>
-      <li><a href="ch04.md#H04-2" class="toc-section">70年代の実行環境・開発環境</a>      </li>
-      <li><a href="ch04.md#H04-3" class="toc-section">今回の実行環境</a>      </li>
-      <li><a href="ch04.md#H04-5" class="toc-section">具体的な手順</a><!-- +++ 3 > 4 -->
-      <ul>
-        <li><a href="ch04.md#H04-6" class="toc-subsection">1. ソースコードをアセンブルする。</a>        </li>
-        <li><a href="ch04.md#H04-7" class="toc-subsection">2. ダンプファイルに変換する。</a>        </li>
-        <li><a href="ch04.md#H04-8" class="toc-subsection">3. 実行(SBC版): ダンプファイルをドラッグアンドドロップする</a><!-- 4 < 2 -->        </li>
-    </ul>
-        </li>
-    </ul>
-        </li>
-    <li><a href="ch05.md#H05-1" class="toc-chapter">旅立ち</a><!-- +++ 2 > 3 -->
-    <ul>
-      <li><a href="ch05.md#H05-2" class="toc-section">まず練習だ</a>      </li>
-      <li><a href="ch05.md#H05-3" class="toc-section">辞書(ディクショナリ)</a>      </li>
-      <li><a href="ch05.md#H05-4" class="toc-section">SAVE, LOAD, DUMP</a>      </ul>
+
+- [FORTHが生まれた世界](ch01.html#"H1-1")
+      - [コラムタイトル](ch01.html#Column01)
+  - [FORTHの誕生](ch01.html#H01-2)
+  - [FORTHの発展](ch01.html#H01-3)
+- [Forthの「基本原則」](ch02.html#H02-1)
+  - [Keep it Simple!](ch02.html#H02-2)
+  - [Do It Yourself!](ch02.html#H02-3)
+- [Forth処理系](ch03.html#H03-1)
+  - [Forth処理系の哲学](ch03.html#H03-2)
+  - [Forth処理系の概要](ch03.html#H03-3)
+    - [辞書(Dictionary)](ch03.html#H03-4)
+    - [スタック](ch03.html#H03-5)
+    - [インタプリタ](ch03.html#H03-6)
+    - [アセンブラ](ch03.html#H03-7)
+    - [2次記憶](ch03.html#H03-8)
+  - [Forth処理系を簡単に説明する](ch03.html#H03-9)
+  - [ワードを定義する](ch03.html#H03-10)
+  - [スタックを介したオペランド渡し](ch03.html#H03-11)
+  - [内部インタプリタ: ワードアドレス列の実行](ch03.html#H03-12)
+  - [仮想Forth実行マシン](ch03.html#H03-13)
+  - [大体の旅程](ch03.html#H03-14)
+- [実行環境の整備](ch04.html#H04-1)
+  - [70年代の実行環境・開発環境](ch04.html#H04-2)
+  - [今回の実行環境](ch04.html#H04-3)
+  - [具体的な手順](ch04.html#H04-5)
+    - [1. ソースコードをアセンブルする。](ch04.html#H04-6)
+    - [2. ダンプファイルに変換する。](ch04.html#H04-7)
+    - [3. 実行(SBC版): ダンプファイルをドラッグアンドドロップする](ch04.html#H04-8)
+- [旅立ち](ch05.html#H05-1)
+  - [まず練習だ](ch05.html#H05-2)
+  - [辞書(ディクショナリ)](ch05.html#H05-3)
+  - [SAVE, LOAD, DUMP](ch05.html#H05-4)
+
 </nav>

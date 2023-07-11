@@ -6,7 +6,10 @@ module.exports = {
     theme: 'css/sample1.css',
     entry: [
         "toppage.md",
-        "toc.md",
+        {
+            path: 'toc.md',
+            rel: 'contents',
+        },
         "ch01.md",
         "ch02.md",
         "ch03.md",
@@ -19,5 +22,6 @@ module.exports = {
     output: [
         "narrowroad.pdf"
     ],
-
+    toc: true,
+    tocTitle: '目次',
 };
