@@ -1,0 +1,155 @@
+@charset "utf-8";
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap');
+
+:root {
+	font-size: 14Q;
+	line-height: 26Q;
+	font-family: 'Noto Sans JP';
+	font-weight: 400;
+	color: #fff;
+	/*text-spacing: auto;*/
+	widows: 1;
+	orphans: 1;
+}
+
+@font-face {
+	font-family: keyfont;
+	src: url('fonts/keyboard-JP-Regular.otf');
+}
+
+@font-face {
+	font-family: udevgothic-r;
+	src:url('fonts/UDEVGothic-Regular.ttf');
+}
+
+img {
+	max-inline-size: 100%;
+	border: solid 0.5mm #000;
+}
+
+@page {
+    size: 182mm 257mm;
+	margin: 0mm;
+	background-color: #c22200;
+}
+
+.title {
+	font-size: 60Q;
+	font-weight: 700;
+	line-height: 120Q;
+	text-align: right;
+	margin: 5% 20mm;
+
+}
+
+.subtitle {
+	font-size: 24Q;
+	font-weight: 700;
+	line-height: 36Q;
+	margin-block-start: 40mm;
+	margin: 0mm 20mm;
+	text-align: right;
+}
+
+.center-box {
+	margin: 20% 0;
+}
+
+.horizontal-bars {
+	border-top-width: 15px;
+	border-top-style: solid;
+	border-bottom-width: 15px;
+	border-bottom-style: solid;
+	padding: 7mm 0;
+}
+
+.publisher {
+	font-size: 24Q;
+	font-weight: 700;
+	line-height: 28Q;
+	/*margin-block-start: 5mm;*/
+	text-align: right;
+
+	/*margin: 0 7px 0 5px;*/
+	margin: 0 20mm ;
+	/*padding: 0 16px 0 10px;*/
+	/*padding: 20Q 0 15Q 0;*/
+}
+
+.author {
+	font-size: 24Q;
+	font-weight: 700;
+	line-height: 36Q;
+	margin-block-start: 20mm;
+	margin: 5% 20mm;
+	text-align: right;
+}
+
+#container {
+	display: grid;
+	grid-template-rows: 150mm 40mm 40mm;
+	grid-template-columns: 100%;
+}
+
+#top {
+	grid-row: 1;
+	grid-column: 1;
+}
+
+#middle {
+	grid-row: 2;
+	grid-column: 1;
+}
+
+#bottom {
+	grid-row: 3;
+}
+
+/* 
+ * Page Break : use <div class="page"/> to insert page break
+ */
+
+.page {
+	page-break-after: always;
+}
+
+em {
+	font-style: normal;
+	text-decoration: underline;
+	text-decoration-thickness: 0.4em;
+	text-decoration-color: #ccc;
+	text-underline-offset: -0.1em;
+	text-decoration-skip-ink: none;
+}
+
+img[src$='.svg'] {
+	border: none;
+}
+
+/* counters */
+:root {
+	counter-reset: figure-counter code-counter table-counter;
+}
+
+/* table */
+table {
+	boader-collapse: collapse;
+	font-size: 12Q;
+	line-height: 1.25em;
+}
+
+td, th {
+	border: solod 0.1mm #000;
+	padding: 1mm;
+}
+
+th {
+	background: #bbb;
+	min-inline-size: 7em;
+}
+
+tr:nth-child(even) {
+	background: #eee;
+}
+
